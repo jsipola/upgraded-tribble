@@ -1,0 +1,34 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Projectile : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+		gameObject.tag = "Projectile";		
+		gameObject.layer = 9;
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+
+	void OnTriggerEnter2D(Collider2D other){
+		if (other.gameObject.tag == "Player") {
+			other.gameObject.SendMessage("ApplyDamage", 10);
+			Destroy(gameObject);
+		}
+	}
+
+	void OnCollisionEnter(Collision collision){
+		if (collision.gameObject.tag == "Projectile") {
+			Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), GetComponent<Collider>());
+		} else if(collision.gameObject.tag == "Wall") {
+			print("asdasd");
+		} else if(collision.gameObject.tag == "Player") {
+			print("Player");
+		}
+	}
+}
