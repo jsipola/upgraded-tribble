@@ -145,10 +145,10 @@ public class Move2d : MonoBehaviour {
 			//Destroy(projectile, 5.0f);
 		}
 		
-		//if (Input.GetButton("Fire1") && AttackTimer <= 0) {
-		//	Teleport();
-		//	AttackTimer = AttackCD;
-		//}
+		if (Input.GetButton("Fire1") && AttackTimer <= 0) {
+			Teleport();
+			AttackTimer = AttackCD;
+		}
 		
 		if (health <= 0){
 			print("YOU ARE DEAD");
@@ -161,43 +161,47 @@ public class Move2d : MonoBehaviour {
 		//TODO
 		float distance = 3.0f;
 		Vector2 TeleportLoc = Vector2.one;
-		Vector2 sizeBox = new Vector2(1, 1);
-		switch (facing) {
-			case 1:
-				TeleportLoc = new Vector2(transform.position.x + distance, transform.position.y);
+		Vector2 sizeBox = new Vector2(0.5f, 0.5f);
+		// check if distance is valid
+		// decrease distance until valid spot found 
+		while (distance > 0.0f){
+			switch (facing) {
+				case 1:
+					TeleportLoc = new Vector2(transform.position.x + distance, transform.position.y);
+					break;
+				case 2:
+					TeleportLoc = new Vector2(transform.position.x - distance, transform.position.y);
+					break;
+				case 3:
+					TeleportLoc = new Vector2(transform.position.x, transform.position.y + distance);
+					break;
+				case 4:
+					TeleportLoc = new Vector2(transform.position.x, transform.position.y - distance);
+					break;
+			}
+			Vector3 vec3 = new Vector3(TeleportLoc.x, TeleportLoc.y, 0);
+			
+			Collider2D col = Physics2D.OverlapBox(TeleportLoc, sizeBox, 0);
+			if (col == null){
+				gameObject.transform.position = vec3;
+				print("Distance: " + distance);
 				break;
-			case 2:
-				TeleportLoc = new Vector2(transform.position.x - distance, transform.position.y);
-				break;
-			case 3:
-				TeleportLoc = new Vector2(transform.position.x, transform.position.y + distance);
-				break;
-			case 4:
-				TeleportLoc = new Vector2(transform.position.x, transform.position.y - distance);
-				break;
+			} else {
+				ContactFilter2D filt = new ContactFilter2D();
+				Collider2D[] res;
+				res = new Collider2D[5];
+				int a = col.OverlapCollider(filt, res);
+				//if (col.tag){
+				print("Num of Collision: " + a);
+				distance -= 0.5f;
+			}
 		}
-		Vector3 vec3 = new Vector3(TeleportLoc.x, TeleportLoc.y, 0);
-		float radius = 2.0f;
-		if (Physics.CheckSphere (vec3, radius)) {
-			print(vec3);
-		} else {
-			gameObject.transform.position = vec3;
-		}
-		
-//		Collider2D col = Physics2D.OverlapBox(TeleportLoc, sizeBox, 0);
-//		ContactFilter2D filt = new ContactFilter2D();
-//		Collider2D[] res;
-//		res = new Collider2D[5];
-//		int a = col.OverlapCollider(filt, res);
-		//if (col.tag){
-//		print(a);
-		//}
 	}
 	
 	void ApplyDamage(float damage){
 		//take damage
 		health = health - damage;
-		print(health);
+		print("Current Health: " + health);
 	}
 
 	void PowerUp(int status){
