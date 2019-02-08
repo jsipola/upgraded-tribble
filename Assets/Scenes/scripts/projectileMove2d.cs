@@ -21,33 +21,11 @@ public class projectileMove2d : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		/*switch (direction) {
-			case 1:
-				gameObject.transform.position += gameObject.transform.right * speed;
-				break;
-			case 2:
-				gameObject.transform.position -= gameObject.transform.right * speed;
-				break;
-			case 3:
-				gameObject.transform.position += gameObject.transform.up * speed;
-				break;
-			case 4:
-				gameObject.transform.position -= gameObject.transform.up * speed;
-				break;
-		}
-		*/
 		rb2d.velocity = moveDir;
-		//if (rb2d.velocity.magnitude > speed) {
-		//	rb2d.velocity *= speed / rb2d.velocity.magnitude;
-		//}
-
-		//gameObject.transform.position += gameObject.transform.right * speed;
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-//		//Destroy(other.gameObject);
 		other.gameObject.SendMessage("ApplyDamage", 10);
-		//Destroy(gameObject);
 	}
 
 	void OnCollisionEnter(Collision collision){
@@ -55,7 +33,6 @@ public class projectileMove2d : MonoBehaviour {
 			Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), GetComponent<Collider>());
 		} else if(collision.gameObject.tag == "Wall") {
 			print("asdasd");
-			//Destroy(gameObject);
 		}
 	}
 

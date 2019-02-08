@@ -49,20 +49,10 @@ public class Move2d : MonoBehaviour {
 			VeloX.x = input;
 			rigidbody2D.velocity = VeloX;
 
-			/*
-			if (Input.GetButton("Fire1") && AttackTimer <= 0) {
-				//Teleport();
-				rigidbody2D.velocity = VeloX * 10;
-				AttackTimer = AttackCD;
-			} else { */
 			if (rigidbody2D.velocity.magnitude > speed) {
 				rigidbody2D.velocity *= speed / rigidbody2D.velocity.magnitude;
 			}
-			
-			//FinalCollisionCheck(rigidbody2D);
-			//float movex = Input.acceleration.x*speed;
-			//rigidbody2D.AddForce(gameObject.transform.right * input * speed);
-			//gameObject.transform.position += gameObject.transform.right * input;
+				
 		}
 		else if (Input.GetButton("Vertical")) {
 			rigidbody2D.angularVelocity = 0;
@@ -84,10 +74,6 @@ public class Move2d : MonoBehaviour {
 				rigidbody2D.velocity *= speed / rigidbody2D.velocity.magnitude;
 			}
 			
-			//FinalCollisionCheck(rigidbody2D);
-			//gameObject.transform.position += gameObject.transform.up * input;
-			
-
 		} else {
 			//if no direction is pressed stop player
 			rigidbody2D.velocity = Vector2.zero;
@@ -137,12 +123,7 @@ public class Move2d : MonoBehaviour {
 				clone.moveDir = projDir * projSpeed;
 				clone.direction = facing;
 			}
-			//clone.ttl = 5.0f;
-			//Destroy(clone, 1.0f);
-//			projectileMove2d prop = projectile.GetComponent<projectileMove2d>();
-//			prop.direction = facing;
-//			prop.ttl = 5.0f;
-			//Destroy(projectile, 5.0f);
+		
 		}
 		
 		if (Input.GetButton("Fire1") && AttackTimer <= 0) {
@@ -153,6 +134,7 @@ public class Move2d : MonoBehaviour {
 		if (health <= 0){
 			print("YOU ARE DEAD");
 			health += 10;
+			//failure state here
 		}
 		
 	}
@@ -193,7 +175,7 @@ public class Move2d : MonoBehaviour {
 				int a = col.OverlapCollider(filt, res);
 				//if (col.tag){
 				print("Num of Collision: " + a);
-				distance -= 0.5f;
+				distance -= 0.3f;
 			}
 		}
 	}
